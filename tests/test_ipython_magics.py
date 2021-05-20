@@ -136,4 +136,5 @@ def test_magics_with_flake8(
     main(["flake8", str(test_nb_path), config])
 
     out, _ = capsys.readouterr()
+    breakpoint()
     assert validate(out, test_nb_path)

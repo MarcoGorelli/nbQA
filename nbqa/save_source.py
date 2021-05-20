@@ -23,7 +23,7 @@ from typing import (
 
 import tokenize_rt
 
-from nbqa.handle_magics import INPUT_SPLITTER, IPythonMagicType, MagicHandler
+from nbqa.handle_magics import INPUT_SPLITTER, IPythonMagicType, LineMagicHandler, MagicHandler
 from nbqa.notebook_info import NotebookInfo
 
 CODE_SEPARATOR = "# %%NBQA-CELL-SEP\n"
@@ -170,7 +170,7 @@ def _extract_ipython_magic(magic: str, cell_source: Iterator[Tuple[int, str]]) -
 
 
 def _replace_magics(
-    source: Sequence[str], magic_substitutions: List[MagicHandler], command: str
+    source: Iterator[str], magic_substitutions: List[MagicHandler], command: str
 ) -> Iterator[str]:
     """
     Replace IPython line magics with valid python code.
@@ -191,8 +191,11 @@ def _replace_magics(
     for line_no, line in source_itr:
         if MagicHandler.is_ipython_magic(line):
             # always pass the source starting from the current line
-            ipython_magic = _extract_ipython_magic(line, source_itr)
+            ipython_magic = line
             magic_handler = MagicHandler.get_magic_handler(ipython_magic, command)
+            if magic_handler is  None:
+                yield line
+                continue
             magic_substitutions.append(magic_handler)
             line = _handle_magic_indentation(
                 source[:line_no], ipython_magic, magic_handler.replace_magic()
@@ -301,8 +304,15 @@ def _should_ignore_code_cell(
     """
     if not source:
         return True
+    # Skip cells with line magics anywhere after first line
+    trasformed_cell = INPUT_SPLITTER.transform_cell(''.join(source[1:]))
+    if "get_ipython().run_line_magic" in trasformed_cell or "get_ipython().magic" in trasformed_cell:
+        return True
     process = MAGIC + [i.strip() for i in process_cells]
     magic_type = MagicHandler.get_ipython_magic_type(source[0])
+    # If it doesn't start with cell magic, no need to skip it
+    if magic_type == IPythonMagicType.LINE:
+        return True
     if magic_type != IPythonMagicType.CELL:
         return False
     first_line = source[0].lstrip()
@@ -375,7 +385,6 @@ def main(  # pylint: disable=R0914
     for cell in cells:
         if cell["cell_type"] == "code":
             index = index._replace(cell_number=index.cell_number + 1)
-
             if _should_ignore_code_cell(cell["source"], process_cells):
                 code_cells_to_ignore.add(index.cell_number)
                 continue

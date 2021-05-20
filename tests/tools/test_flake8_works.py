@@ -73,5 +73,6 @@ def test_flake8_works(
         """
     )
     expected_err = ""
+    breakpoint()
     assert sorted(out.splitlines()) == sorted(expected_out.splitlines())
     assert sorted(err.splitlines()) == sorted(expected_err.splitlines())

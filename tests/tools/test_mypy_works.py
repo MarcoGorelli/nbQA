@@ -46,6 +46,7 @@ def test_mypy_works(capsys: "CaptureFixture") -> None:
         """  # noqa
     )
     expected_err = ""
+    breakpoint()
     assert sorted(out.splitlines()) == sorted(expected_out.splitlines())
     assert sorted(err.splitlines()) == sorted(expected_err.splitlines())
 

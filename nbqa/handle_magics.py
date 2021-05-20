@@ -253,7 +253,7 @@ class MagicHandler(ABC):
             magic_handler = CellMagicHandler(ipython_magic, command)
         else:
             # make this as the default case
-            magic_handler = LineMagicHandler(ipython_magic, command)
+            return None
 
         return magic_handler
 
