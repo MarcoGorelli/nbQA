@@ -28,7 +28,7 @@
 - id: nbqa-flake8
   name: nbqa-flake8
   description: "Run 'flake8' on a Jupyter Notebook"
-  entry: nbqa flake8
+  entry: bash -c 'nbqa flake8 "$@"'
   language: python
   language_version: python3
   require_serial: true
