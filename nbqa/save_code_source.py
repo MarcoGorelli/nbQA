@@ -9,7 +9,8 @@ from __future__ import annotations
 import ast
 import secrets
 from collections import defaultdict
-from typing import Any, DefaultDict, Mapping, MutableMapping, NamedTuple, Sequence
+from collections.abc import Mapping, MutableMapping, Sequence
+from typing import Any, DefaultDict, NamedTuple
 
 import tokenize_rt
 from IPython.core.inputtransformer2 import TransformerManager

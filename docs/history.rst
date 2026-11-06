@@ -2,6 +2,10 @@
 Changelog
 =========
 
+Unreleased
+~~~~~~~~~~
+Drop support for Python 3.10 (end-of-life); Python 3.11+ is now required.
+
 1.9.1 (2024-11-10)
 ~~~~~~~~~~~~~~~~~~
 Drop support for Python 3.8, test against Python 3.13.

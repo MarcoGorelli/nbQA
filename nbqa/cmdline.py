@@ -2,8 +2,8 @@
 
 import argparse
 import sys
+from collections.abc import Sequence
 from textwrap import dedent
-from typing import Optional, Sequence
 
 from nbqa import __version__
 from nbqa.text import BOLD, RESET
@@ -42,14 +42,14 @@ class CLIArgs:  # pylint: disable=R0902
 
     command: str
     root_dirs: Sequence[str]
-    addopts: Optional[Sequence[str]]
-    process_cells: Optional[Sequence[str]]
-    diff: Optional[bool]
-    files: Optional[str]
-    exclude: Optional[str]
-    dont_skip_bad_cells: Optional[bool]
-    md: Optional[bool]
-    shell: Optional[bool]
+    addopts: Sequence[str] | None
+    process_cells: Sequence[str] | None
+    diff: bool | None
+    files: str | None
+    exclude: str | None
+    dont_skip_bad_cells: bool | None
+    md: bool | None
+    shell: bool | None
 
     def __init__(self, args: argparse.Namespace, cmd_args: Sequence[str]) -> None:
         """
@@ -90,7 +90,7 @@ class CLIArgs:  # pylint: disable=R0902
         return str(self.__dict__)
 
     @staticmethod
-    def parse_args(argv: Optional[Sequence[str]]) -> "CLIArgs":
+    def parse_args(argv: Sequence[str] | None) -> "CLIArgs":
         """
         Parse command-line arguments.
 

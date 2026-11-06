@@ -1,6 +1,7 @@
 """Store information about the code cells for processing."""
 
-from typing import Mapping, NamedTuple, Sequence, Set
+from collections.abc import Mapping, Sequence
+from typing import NamedTuple
 
 from nbqa.handle_magics import MagicHandler
 
@@ -22,6 +23,6 @@ class NotebookInfo(NamedTuple):
     """
 
     cell_mappings: Mapping[int, str]
-    trailing_semicolons: Set[int]
+    trailing_semicolons: set[int]
     temporary_lines: Mapping[int, Sequence[MagicHandler]]
-    code_cells_to_ignore: Set[int]
+    code_cells_to_ignore: set[int]

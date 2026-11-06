@@ -4,7 +4,6 @@ import os
 import sys
 from shutil import which
 from subprocess import CompletedProcess
-from typing import List
 
 import pytest
 from _pytest.capture import CaptureFixture
@@ -13,11 +12,11 @@ from _pytest.monkeypatch import MonkeyPatch
 from nbqa.__main__ import CommandNotFoundError, main
 
 
-def _message(args: List[str]) -> str:
+def _message(args: list[str]) -> str:
     return f"I would have run `{args[:-1]}`"
 
 
-def subprocess_run(args: List[str], *_, **__):  # type: ignore
+def subprocess_run(args: list[str], *_, **__):  # type: ignore
     """Mock subprocess run to print and return ok."""
     print(_message(args=args), file=sys.stderr)
     return CompletedProcess(args, 0, b"", b"")

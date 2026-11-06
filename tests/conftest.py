@@ -2,9 +2,10 @@
 
 import shutil
 import sys
+from collections.abc import Iterator
 from pathlib import Path
 from shutil import copytree  # pylint: disable=E0611,W4901
-from typing import TYPE_CHECKING, Iterator
+from typing import TYPE_CHECKING
 
 import pytest
 

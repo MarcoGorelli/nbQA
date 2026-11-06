@@ -3,7 +3,7 @@
 import ast
 import secrets
 from collections import defaultdict
-from typing import List, MutableMapping, Optional, Tuple
+from collections.abc import MutableMapping
 
 COMMANDS_WITH_STRING_TOKEN = {"flake8"}
 
@@ -18,7 +18,7 @@ def _is_ipython_magic(node: ast.expr) -> bool:
     )
 
 
-def _get_node_args(func: ast.Call) -> List[str]:
+def _get_node_args(func: ast.Call) -> list[str]:
     """
     Get argument names from function def.
 
@@ -44,9 +44,9 @@ class Visitor(ast.NodeVisitor):
 
     def __init__(self) -> None:
         """Magics will record where magics occur."""
-        self.magics: MutableMapping[
-            int, List[Tuple[int, Optional[str], Optional[str]]]
-        ] = defaultdict(list)
+        self.magics: MutableMapping[int, list[tuple[int, str | None, str | None]]] = (
+            defaultdict(list)
+        )
 
     def visit_Assign(self, node: ast.Assign) -> None:
         """
@@ -99,9 +99,9 @@ class Visitor(ast.NodeVisitor):
         if isinstance(node.value, ast.Call) and _is_ipython_magic(node.value.func):
             assert isinstance(node.value.func, ast.Attribute)  # help mypy
             args = _get_node_args(node.value)
-            magic_type: Optional[str] = None
+            magic_type: str | None = None
             if node.value.func.attr == "run_cell_magic":
-                src: Optional[str] = f"%%{args[0]}"
+                src: str | None = f"%%{args[0]}"
                 if args[1]:
                     assert src is not None
                     src += f" {args[1]}"
@@ -141,8 +141,8 @@ class CellMagicFinder(ast.NodeVisitor):
 
     def __init__(self) -> None:
         """Record where cell magics occur."""
-        self.header: Optional[str] = None
-        self.body: Optional[str] = None
+        self.header: str | None = None
+        self.body: str | None = None
 
     def visit_Call(self, node: ast.Call) -> None:
         """
@@ -164,7 +164,7 @@ class CellMagicFinder(ast.NodeVisitor):
                         raise AssertionError(
                             "Please report a bug at https://github.com/nbQA-dev/nbQA/issues"
                         )
-                header: Optional[str] = f"%%{args[0]}"
+                header: str | None = f"%%{args[0]}"
                 if args[1]:
                     assert header is not None
                     header += f" {args[1]}"
@@ -175,9 +175,7 @@ class CellMagicFinder(ast.NodeVisitor):
 class MagicHandler:
     """Handle different types of magics."""
 
-    def __init__(
-        self, src: str, whole_src: str, command: str, magic_type: Optional[str]
-    ):
+    def __init__(self, src: str, whole_src: str, command: str, magic_type: str | None):
         """
         Handle magic.
 
