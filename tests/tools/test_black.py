@@ -4,10 +4,11 @@ import difflib
 import operator
 import os
 import subprocess
+from collections.abc import Callable
 from pathlib import Path
 from shutil import copyfile
 from textwrap import dedent
-from typing import TYPE_CHECKING, Callable
+from typing import TYPE_CHECKING
 
 from nbqa.__main__ import main
 

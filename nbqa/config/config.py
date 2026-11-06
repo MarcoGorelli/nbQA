@@ -1,6 +1,7 @@
 """Module responsible for storing and handling nbqa configuration."""
 
-from typing import TYPE_CHECKING, Callable, Optional, Sequence, Union
+from collections.abc import Callable, Sequence
+from typing import TYPE_CHECKING, Union
 
 ConfigParser = Callable[[str], Union[str, bool, Sequence[str]]]
 
@@ -15,8 +16,8 @@ class Configs(TypedDict):
 
     addopts: Sequence[str]
     diff: bool
-    exclude: Optional[str]
-    files: Optional[str]
+    exclude: str | None
+    files: str | None
     process_cells: Sequence[str]
     dont_skip_bad_cells: bool
     skip_celltags: Sequence[str]

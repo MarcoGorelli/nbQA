@@ -1,9 +1,10 @@
 """Check configs from :code:`pyproject.toml` are picked up."""
 
 import difflib
+from collections.abc import Sequence
 from pathlib import Path
 from textwrap import dedent
-from typing import TYPE_CHECKING, Sequence, Tuple
+from typing import TYPE_CHECKING
 
 from nbqa.__main__ import main
 
@@ -13,7 +14,7 @@ if TYPE_CHECKING:
 
 def _run_nbqa(
     command: str, notebook: str, *args: str
-) -> Tuple[Sequence[str], Sequence[str]]:
+) -> tuple[Sequence[str], Sequence[str]]:
     """
     Run nbQA on the given notebook using the input command.
 

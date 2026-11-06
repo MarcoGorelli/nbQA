@@ -2,9 +2,10 @@
 
 import difflib
 import os
+from collections.abc import Callable, Sequence
 from pathlib import Path
 from shutil import copyfile
-from typing import TYPE_CHECKING, Callable, Sequence
+from typing import TYPE_CHECKING
 
 import pytest
 

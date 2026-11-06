@@ -46,7 +46,7 @@ def test_ruff_works(
     """
     # check passing both absolute and relative paths
 
-    main(["ruff", path_0, path_1, path_2])
+    main(["ruff", path_0, path_1, path_2, "--select=E4,E7,E9,F"])
 
     expected_path_0 = os.path.join("tests", "data", "notebook_for_testing.ipynb")
     expected_path_1 = os.path.join("tests", "data", "notebook_for_testing_copy.ipynb")
@@ -99,7 +99,7 @@ def test_cell_with_all_magics(capsys: "CaptureFixture") -> None:
     """
 
     path = os.path.join("tests", "data", "all_magic_cell.ipynb")
-    main(["ruff", "--quiet", path])
+    main(["ruff", "--quiet", path, "--select=E4,E7,E9,F"])
 
     out, err = capsys.readouterr()
     assert out == ""

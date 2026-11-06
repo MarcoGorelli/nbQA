@@ -20,7 +20,7 @@ Here's one way to set one up using Conda - see `this tutorial <https://realpytho
 
 .. code-block:: bash
 
-    conda create -n nbqa-env python=3.8 -y
+    conda create -n nbqa-env python=3.13 -y
 
 3. Activate your virtual environment
 

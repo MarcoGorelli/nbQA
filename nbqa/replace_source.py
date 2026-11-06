@@ -11,9 +11,10 @@ import json
 import os
 import re
 import sys
+from collections.abc import Iterator, Mapping, MutableMapping, Sequence
 from difflib import unified_diff
 from shutil import move
-from typing import Any, Iterator, Mapping, MutableMapping, Sequence
+from typing import Any
 
 import tokenize_rt
 
@@ -159,8 +160,7 @@ def _get_cells(tmp_file: str, num_cells: int, *, md: bool) -> Iterator[str]:
             "Tool did not preserve code separators and cannot be safely used with nbQA."
         )
 
-    if txt.startswith(separator):
-        txt = txt[len(separator) :]
+    txt = txt.removeprefix(separator)
     return iter(txt.split(separator))
 
 

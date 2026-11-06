@@ -6,7 +6,8 @@ Python cells, output, and metadata are ignored.
 
 import secrets
 from collections import defaultdict
-from typing import Any, DefaultDict, Mapping, MutableMapping, NamedTuple, Sequence
+from collections.abc import Mapping, MutableMapping, Sequence
+from typing import Any, DefaultDict, NamedTuple
 
 from nbqa.handle_magics import MagicHandler
 from nbqa.notebook_info import NotebookInfo

@@ -22,7 +22,7 @@ def test_pylint_works(capsys: "CaptureFixture") -> None:
     notebook1 = os.path.join("tests", "data", "notebook_for_testing.ipynb")
     notebook2 = os.path.join("tests", "data", "notebook_with_indented_magics.ipynb")
 
-    main(["pylint", notebook1, notebook2, "--disable=C0114"])
+    main(["pylint", notebook1, notebook2, "--disable=C0114,E0611"])
 
     # check out and err
     out, _ = capsys.readouterr()

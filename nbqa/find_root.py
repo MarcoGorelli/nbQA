@@ -4,9 +4,9 @@ Find project root.
 Taken from https://github.com/psf/black/blob/master/src/black/__init__.py
 """
 
+from collections.abc import Iterable
 from functools import lru_cache
 from pathlib import Path
-from typing import Iterable
 
 # files and folders known to indicate a project root
 KNOWN_PROJECT_ROOT_DIRS = [".git", ".hg"]

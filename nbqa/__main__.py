@@ -10,11 +10,12 @@ import string
 import subprocess
 import sys
 import tempfile
+from collections.abc import Iterator, Mapping, MutableMapping, Sequence
 from importlib import import_module
 from pathlib import Path
 from shutil import which
 from textwrap import dedent
-from typing import Any, Iterator, Mapping, MutableMapping, NamedTuple, Sequence, cast
+from typing import Any, NamedTuple, cast
 
 import tomli
 

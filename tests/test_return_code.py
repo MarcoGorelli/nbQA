@@ -1,9 +1,9 @@
 """Check that return code from third-party tool is preserved."""
 
 import subprocess
+from collections.abc import Sequence
 from functools import partial
 from pathlib import Path
-from typing import Sequence
 
 TESTS_DIR = Path("tests")
 TEST_DATA_DIR = TESTS_DIR / "data"
