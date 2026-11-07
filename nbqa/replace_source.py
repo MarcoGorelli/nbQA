@@ -10,10 +10,11 @@ import copy
 import json
 import os
 import re
+import shutil
 import sys
+import tempfile
 from collections.abc import Iterator, Mapping, MutableMapping, Sequence
 from difflib import unified_diff
-from shutil import move
 from typing import Any
 
 import tokenize_rt
@@ -292,9 +293,22 @@ def mutate(  # pylint: disable=too-many-locals,too-many-arguments
             if i not in cells_to_remove
         ]
 
-    temp_notebook = os.path.join(os.path.dirname(temp_file), os.path.basename(notebook))
-    _write_notebook(temp_notebook, trailing_newline, notebook_json)
-    move(temp_notebook, notebook)
+    # Write to a separate temporary file next to the notebook and then
+    # atomically replace the notebook with it, so that the original is left
+    # intact if writing fails or is interrupted.
+    fd, temp_notebook = tempfile.mkstemp(
+        dir=os.path.dirname(os.path.abspath(notebook)),
+        prefix=".nbqa_",
+        suffix=os.path.splitext(notebook)[1],
+    )
+    os.close(fd)
+    try:
+        _write_notebook(temp_notebook, trailing_newline, notebook_json)
+        shutil.copymode(notebook, temp_notebook)
+        os.replace(temp_notebook, notebook)
+    finally:
+        if os.path.exists(temp_notebook):
+            os.remove(temp_notebook)
     return True
 
 

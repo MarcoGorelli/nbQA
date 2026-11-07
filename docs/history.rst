@@ -5,6 +5,8 @@ Changelog
 Unreleased
 ~~~~~~~~~~
 Drop support for Python 3.10 (end-of-life); Python 3.11+ is now required.
+Fixed notebook being left truncated if writing it back failed or was
+interrupted; it is now written to a temporary file and atomically replaced.
 
 1.9.1 (2024-11-10)
 ~~~~~~~~~~~~~~~~~~
